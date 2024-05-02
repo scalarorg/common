@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  builder:
+    image: rust:1.76.0-bookworm
+    environment:
+      - LD_PRELOAD
+      - RUST_JSON_LOG=true
+      - RUST_LOG=info
+      - GIT_REVISION=experiment
+      # For stripped binary file
+      - RUSTFLAGS=-C link-arg=-s
+      # don't use debug, it generates volumes of data.
+    container_name: common-builder
+    restart: unless-stopped
+    working_dir: /common
+    volumes:
+      - ./:/common
