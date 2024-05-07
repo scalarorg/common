@@ -1,0 +1,25 @@
+[package]
+name = "common-tendermint"
+version = "0.1.0"
+authors = ["Scalar org <tech@scalar.org>"]
+license = "Apache-2.0"
+publish = true
+edition = "2021"
+
+[dependencies]
+async-trait = "0.1"
+tokio = { version = "^1.37", features = ["rt-multi-thread", "macros"] }
+tokio-stream = "0.1.15"
+prost = { version = "0.12" }
+prost-types = { version = "0.12", default-features = false }
+tonic = { version = "0.11.0" }
+
+[build-dependencies]
+prost-build = { version = "0.12.4" }
+tonic-build = { version = "0.11.0" }
+vergen = { version = "8.0.0", features = ["build", "cargo", "git", "gitcl"] }
+
+[features]
+client = []
+server = []
+v0_37 = []

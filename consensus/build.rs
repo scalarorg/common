@@ -19,7 +19,10 @@ fn build_consensus_service() {
 // And this function only gets compiled if the target OS is *not* linux
 #[cfg(not(target_os = "linux"))]
 fn build_consensus_service() {
-    println!("Missing protoc for building protos!");
+    tonic_build::configure()
+        .out_dir("src/proto")
+        .compile(&["proto/consensus.proto"], &["proto"])
+        .expect("Failed to compile proto(s)");
 }
 
 fn build_vergen() -> Result<(), Box<dyn Error>> {
