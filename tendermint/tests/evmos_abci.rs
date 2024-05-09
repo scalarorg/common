@@ -6,7 +6,7 @@ mod evmos_abci {
     use std::error::Error;
     #[tokio::test]
     async fn abci_echo() -> Result<(), Box<dyn Error>> {
-        let avmos_server = "http://localhost:26618";
+        let avmos_server = "http://192.168.1.254:26618";
         let echo_message = "Hello abci";
         let mut client = AbciApplicationClient::connect(avmos_server).await?;
         let request = tonic::Request::new(RequestEcho {
