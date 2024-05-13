@@ -12,7 +12,10 @@ fn build_proto_v0_37() {
     tonic_build::configure()
         .out_dir("src/prost/v0_37")
         .compile(
-            &["v0_37/tendermint/abci/types.proto"],
+            &[
+                "v0_37/tendermint/abci/types.proto",
+                "v0_37/tendermint/rpc/grpc/types.proto",
+            ],
             &["v0_37", "protobuf"],
         )
         .expect("Failed to compile proto(s)");

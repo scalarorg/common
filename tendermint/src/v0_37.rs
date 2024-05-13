@@ -5,6 +5,15 @@ pub mod abci {
     #[cfg(feature = "server")]
     pub use abci_application_server::{AbciApplication, AbciApplicationServer};
 }
+pub mod rpc {
+    pub mod grpc {
+        include!("./prost/v0_37/tendermint.rpc.grpc.rs");
+        #[cfg(feature = "client")]
+        pub use broadcast_api_client::BroadcastApiClient;
+        #[cfg(feature = "server")]
+        pub use broadcast_api_server::{BroadcastApi, BroadcastApiServer};
+    }
+}
 pub mod crypto {
     include!("./prost/v0_37/tendermint.crypto.rs");
 }
