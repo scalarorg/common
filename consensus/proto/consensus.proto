@@ -20,6 +20,28 @@
 
  package consensus;
 
+ message Request {
+  oneof value {
+    RequestEcho echo = 1;
+  }
+  reserved 2;
+}
+
+message Response {
+  oneof value {
+    ResponseEcho echo = 1;
+  }
+  reserved 2;
+}
+
+message RequestEcho {
+  string message = 1;
+}
+
+message ResponseEcho {
+  string message = 1;
+}
+
  message ExternalTransaction {
     string namespace = 1;   //Namespace used to classify services
     bytes tx_bytes = 2;     //Transaction hash or some raw data 
@@ -38,5 +60,6 @@
    // ClientStreamingEcho is client side streaming.
    // rpc ClientStreamingScalarAbci(stream ScalarAbciRequest) returns (ScalarAbciResponse) {}
    // BidirectionalStreamingScalarAbci is bidi streaming.
+   rpc Echo(RequestEcho) returns (ResponseEcho);
    rpc InitTransaction(stream ExternalTransaction) returns (stream CommitedTransactions) {}
  }
