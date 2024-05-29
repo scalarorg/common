@@ -16,11 +16,13 @@
  *
  */
 
- syntax = "proto3";
+syntax = "proto3";
 
- package consensus;
+package consensus;
 
- message Request {
+message Empty {}
+
+message Request {
   oneof value {
     RequestEcho echo = 1;
   }
@@ -42,8 +44,20 @@ message ResponseEcho {
   string message = 1;
 }
 
+message ValidatorInfo {
+  string chain_id = 1;
+  bytes pub_key = 2;
+  bytes private_key = 3;
+  bytes node_private_key = 4;
+}
+
+message ValidatorState {
+  ValidatorInfo validator_info = 1;
+  int64 round = 2;
+}
+
  message ExternalTransaction {
-    string namespace = 1;   //Namespace used to classify services
+    string chain_id = 1;   //Namespace used to classify services
     bytes tx_bytes = 2;     //Transaction hash or some raw data 
  }
 
@@ -54,12 +68,13 @@ message ResponseEcho {
  // Echo is the echo service.
  service ConsensusApi {
    // UnaryEcho is unary echo.
-   // rpc UnaryScalarAbci(ScalarAbciRequest) returns (ScalarAbciResponse) {}
+   rpc Echo(RequestEcho) returns (ResponseEcho);
+   rpc GetValidatorInfo(Empty) returns (ValidatorInfo);
+   rpc GetValidatorState(Empty) returns (ValidatorState);
    // ServerStreamingEcho is server side streaming.
    // rpc ServerStreamingScalarAbci(ScalarAbciRequest) returns (stream ScalarAbciResponse) {}
    // ClientStreamingEcho is client side streaming.
    // rpc ClientStreamingScalarAbci(stream ScalarAbciRequest) returns (ScalarAbciResponse) {}
    // BidirectionalStreamingScalarAbci is bidi streaming.
-   rpc Echo(RequestEcho) returns (ResponseEcho);
    rpc InitTransaction(stream ExternalTransaction) returns (stream CommitedTransactions) {}
  }
